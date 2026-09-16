@@ -103,7 +103,7 @@
         @media (hover: hover) and (pointer: fine) {
             body,
             body * {
-                cursor: none !important;
+            transform: scale(1.02);
             }
 
             .cur {
@@ -111,7 +111,7 @@
                 --c2: var(--ink-3);
                 position: fixed;
                 inset: 0;
-                z-index: 100;
+                z-index: 10001;
                 display: grid;
                 place-items: center;
                 overflow: hidden;
@@ -128,7 +128,7 @@
                 height: 14px;
                 border-radius: 50%;
                 background: var(--c);
-                transform: translate(-50%, -50%);
+                transition: none;
                 transition: left 0.24s cubic-bezier(0.16, 1, 0.3, 1), top 0.24s cubic-bezier(0.16, 1, 0.3, 1);
                 pointer-events: none;
                 will-change: left, top;
@@ -136,7 +136,7 @@
 
             .cur-ring .cursor {
                 width: 34px;
-                height: 34px;
+                transition: none;
                 background: transparent;
                 border: 2px solid var(--c);
                 box-shadow: 0 0 18px color-mix(in srgb, var(--c) 55%, transparent), inset 0 0 10px color-mix(in srgb, var(--c2) 22%, transparent);
@@ -1790,12 +1790,12 @@
         }
 
         AOS.init({
-            duration: 1150,
-            easing: 'ease-in-out-cubic',
-            offset: 80,
-            once: false,
-            mirror: true,
-            anchorPlacement: 'center-bottom',
+            duration: 420,
+            easing: 'ease-out-cubic',
+            offset: 60,
+            once: true,
+            mirror: false,
+            anchorPlacement: 'top-bottom',
             throttleDelay: 16,
             debounceDelay: 40,
             disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -1803,21 +1803,18 @@
 
         if (window.Lenis && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             const lenis = new Lenis({
-                duration: 1.15,
+                duration: 0.45,
                 smoothWheel: true,
-                syncTouch: false,
                 wheelMultiplier: 0.92,
                 touchMultiplier: 1.05,
-                lerp: 0.085,
+                lerp: 0.16,
             });
-
             const animateScroll = (time) => {
                 lenis.raf(time);
                 requestAnimationFrame(animateScroll);
             };
 
             requestAnimationFrame(animateScroll);
-            lenis.on('scroll', AOS.refreshHard);
         }
 
         const launchHeroAnimation = () => {
@@ -1902,10 +1899,6 @@
                 replayHeroAnimation();
             }
 
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                backgroundVideo.style.setProperty('--video-shift', `${Math.min(38, window.scrollY * 0.035)}px`);
-            }
-
             scrollFrame = null;
         };
 
@@ -1923,6 +1916,28 @@
                 }
             });
         });
+
+        const sectionLinks = [...menuLinks].filter((link) => link.hash);
+        const sections = sectionLinks
+            .map((link) => document.querySelector(link.hash))
+            .filter(Boolean);
+        const setCurrentMenuItem = (sectionId) => {
+            sectionLinks.forEach((link) => {
+                const item = link.closest('.htmlmenu-item');
+                item.classList.toggle('htmlmenu-current', link.hash === `#${sectionId}`);
+            });
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            const visibleSection = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
+            if (visibleSection) {
+                setCurrentMenuItem(visibleSection.target.id);
+            }
+        }, { rootMargin: '-20% 0px -65% 0px', threshold: [0.1, 0.35, 0.65] });
+
+        sections.forEach((section) => sectionObserver.observe(section));
     </script>
 </body>
 </html>
