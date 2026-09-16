@@ -103,8 +103,7 @@
         @media (hover: hover) and (pointer: fine) {
             body,
             body * {
-            transform: translate3d(0, var(--video-shift, 0px), 0) scale(1.04);
-            will-change: transform;
+                cursor: none !important;
             }
 
             .cur {
@@ -112,7 +111,7 @@
                 --c2: var(--ink-3);
                 position: fixed;
                 inset: 0;
-                z-index: 100;
+                z-index: 10001;
                 display: grid;
                 place-items: center;
                 overflow: hidden;
@@ -129,19 +128,19 @@
                 height: 14px;
                 border-radius: 50%;
                 background: var(--c);
-                transition: left 0.24s cubic-bezier(0.16, 1, 0.3, 1), top 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-                transition: left 0.24s cubic-bezier(0.16, 1, 0.3, 1), top 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+                transform: translate(-50%, -50%);
+                transition: none;
                 pointer-events: none;
                 will-change: left, top;
             }
 
             .cur-ring .cursor {
                 width: 34px;
-                transition-duration: 0.38s;
+                height: 34px;
                 background: transparent;
                 border: 2px solid var(--c);
                 box-shadow: 0 0 18px color-mix(in srgb, var(--c) 55%, transparent), inset 0 0 10px color-mix(in srgb, var(--c2) 22%, transparent);
-                transition-duration: 0.38s;
+                transition: none;
             }
 
             @media (prefers-reduced-motion: reduce) {
@@ -1538,7 +1537,7 @@
                     <p>Je m'appelle Alexandre Bodchon. Je prépare un BTS Services informatiques aux organisations, option Solutions logicielles et applications métiers, au CNED. Curieux, respectueux, attentif et à l'écoute, je développe progressivement mes compétences en développement web et logiciel.</p>
                     <p style="margin-top: 1rem;">Mon objectif est de consolider mes acquis sur des projets concrets, de progresser au contact d'une équipe et de construire une expérience professionnelle dans le développement logiciel.</p>
                     <div class="button-row">
-                        <a class="portfolio-button" href="cv-alexandre-bodchon.pdf" download>Télécharger mon CV</a>
+                        <a class="portfolio-button" href="documents/cv-alexandre-bodchon.pdf" download>Télécharger mon CV</a>
                     </div>
                     <ul class="contact-list">
                         <li><strong>Âge</strong>19 ans</li>
@@ -1724,8 +1723,8 @@
                         <li><strong>Email</strong><a href="mailto:alexandrebodchon@gmail.com">alexandrebodchon@gmail.com</a></li>
                     </ul>
                     <div class="contact-links">
-                        <a href="https://www.linkedin.com/in/alexandre-bodchon-9284423a7/" target="_blank" rel="noreferrer">LinkedIn</a>
-                        <a href="https://github.com/alexandrebodchon-stack/alexandre" target="_blank" rel="noreferrer">GitHub</a>
+                        <a href="https://www.linkedin.com/in/" target="_blank" rel="noreferrer">LinkedIn</a>
+                        <a href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
                     </div>
                 </article>
                 <article class="contact-card" data-aos="fade-left" data-aos-delay="160">
@@ -1791,12 +1790,12 @@
         }
 
         AOS.init({
-            duration: 1150,
-            easing: 'ease-in-out-cubic',
-            offset: 80,
-            once: false,
-            mirror: true,
-            anchorPlacement: 'center-bottom',
+            duration: 350,
+            easing: 'ease-out-cubic',
+            offset: 40,
+            once: true,
+            mirror: false,
+            anchorPlacement: 'top-bottom',
             throttleDelay: 16,
             debounceDelay: 40,
             disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -1804,19 +1803,20 @@
 
         if (window.Lenis && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             const lenis = new Lenis({
-                duration: 1.15,
+                duration: 0.35,
                 smoothWheel: true,
+                syncTouch: false,
                 wheelMultiplier: 0.92,
                 touchMultiplier: 1.05,
-                lerp: 0.085,
+                lerp: 0.2,
             });
+
             const animateScroll = (time) => {
                 lenis.raf(time);
                 requestAnimationFrame(animateScroll);
             };
 
             requestAnimationFrame(animateScroll);
-            lenis.on('scroll', AOS.refreshHard);
         }
 
         const launchHeroAnimation = () => {
@@ -1922,7 +1922,6 @@
                 }
             });
         });
-
     </script>
 </body>
 </html>
