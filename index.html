@@ -86,18 +86,14 @@
             transition: opacity 400ms ease;
         }
 
-        .site-background-video {
+        #plasma-bg {
             position: fixed;
             inset: 0;
             z-index: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            filter: brightness(0.62) saturate(0.82);
+            display: block;
             pointer-events: none;
-            transition: opacity 400ms ease;
-            transform: translate3d(0, var(--video-shift, 0px), 0) scale(1.04);
-            will-change: transform;
         }
 
         @media (hover: hover) and (pointer: fine) {
@@ -151,7 +147,6 @@
         }
 
         body.is-loading #gradient,
-        body.is-loading .site-background-video,
         body.is-loading .site-nav,
         body.is-loading .htmlmenu-wrapper,
         body.is-loading .site-hero,
@@ -1419,22 +1414,7 @@
         <span class="cur-word" aria-hidden="true"></span>
         <i class="cursor" style="--i: 0"></i>
     </div>
-    <div
-        id="gradient"
-        class="site-background"
-        aria-hidden="true"
-    ></div>
-    <video
-        class="site-background-video"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-        aria-hidden="true"
-    >
-        <source src="wuling-blossoms-arknights-endfield-moewalls-com.mp4.mp4" type="video/mp4">
-    </video>
+    <canvas id="plasma-bg" aria-hidden="true"></canvas>
     <section class="site-hero" aria-labelledby="intro-title">
         <div class="site-intro">
             <p class="site-intro__eyebrow">BTS SIO · Option SLAM</p>
@@ -1712,7 +1692,38 @@
     <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://plasma.nusaiba.dev/js/shader-source.js"></script>
+    <script src="https://plasma.nusaiba.dev/js/plasma-engine.js"></script>
     <script>
+        Plasma.init('plasma-bg', {
+            mode: 'gradient',
+            style: 'Ocean',
+            colors: ['#001d3d', '#003566', '#0077b6', '#00b4d8', '#90e0ef'],
+            pointerEffect: true,
+            ditherFit: 'none',
+            ditherShape: 'simplex',
+            ditherType: '4x4',
+            ditherPreset: 'default',
+            raymarchShape: 'sphere',
+            raymarchScale: 1,
+            raymarchRoundness: 0.2,
+            raymarchRotation: 1,
+            raymarchPositionY: 0,
+            raymarchObjectColor: '#00D4FF',
+            raymarchBgColor: '#0A0A14',
+            raymarchMetallic: 0.3,
+            raymarchSmoothness: 0.7,
+            raymarchAmbient: 0.3,
+            raymarchSpecular: 0.8,
+            raymarchOpacity: 0.5,
+            raymarchGlow: 0.2,
+            raymarchShadow: 0.5,
+            flow: 0.16,
+            warp: 0.45,
+            noise: 1.5,
+            grain: 0.048,
+        });
+
         function bindCursor(box) {
             let lastX = 0;
             let lastY = 0;
@@ -1793,7 +1804,6 @@
         const menuLinks = document.querySelectorAll('.htmlmenu-nav a');
 
         const progressBar = document.querySelector('.scroll-progress__bar');
-        const backgroundVideo = document.querySelector('.site-background-video');
         let scrollFrame;
 
         const updateScrollMotion = () => {
@@ -1801,10 +1811,6 @@
             const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
             progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
             menuHeader.classList.toggle('htmlmenu-scrolled', window.scrollY > 20);
-
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                backgroundVideo.style.setProperty('--video-shift', `${Math.min(38, window.scrollY * 0.035)}px`);
-            }
 
             scrollFrame = null;
         };
