@@ -1695,7 +1695,7 @@
     <script src="https://plasma.nusaiba.dev/js/shader-source.js"></script>
     <script src="https://plasma.nusaiba.dev/js/plasma-engine.js"></script>
     <script>
-        Plasma.init('plasma-bg', {
+        const plasmaOptions = {
             mode: 'gradient',
             style: 'Ocean',
             colors: ['#001d3d', '#003566', '#0077b6', '#00b4d8', '#90e0ef'],
@@ -1722,7 +1722,44 @@
             warp: 0.45,
             noise: 1.5,
             grain: 0.048,
-        });
+        };
+
+        const plasmaCanvas = document.querySelector('#plasma-bg');
+        if (window.Plasma && typeof window.Plasma.init === 'function') {
+            window.Plasma.init('plasma-bg', plasmaOptions);
+        } else {
+            const plasmaContext = plasmaCanvas.getContext('2d');
+            const resizePlasma = () => {
+                const ratio = window.devicePixelRatio || 1;
+                plasmaCanvas.width = window.innerWidth * ratio;
+                plasmaCanvas.height = window.innerHeight * ratio;
+                plasmaContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+            };
+            const drawPlasmaFallback = (time) => {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                const shift = time * plasmaOptions.flow * 0.035;
+                plasmaContext.fillStyle = '#0A0A14';
+                plasmaContext.fillRect(0, 0, width, height);
+                const colors = plasmaOptions.colors;
+                colors.forEach((color, index) => {
+                    const x = width * (0.15 + index * 0.18) + Math.sin(shift + index) * width * 0.16;
+                    const y = height * (0.18 + (index % 3) * 0.32) + Math.cos(shift * 0.8 + index) * height * 0.14;
+                    const radius = Math.max(width, height) * (0.42 + index * 0.025);
+                    const gradient = plasmaContext.createRadialGradient(x, y, 0, x, y, radius);
+                    gradient.addColorStop(0, `${color}cc`);
+                    gradient.addColorStop(1, `${color}00`);
+                    plasmaContext.globalCompositeOperation = 'screen';
+                    plasmaContext.fillStyle = gradient;
+                    plasmaContext.fillRect(0, 0, width, height);
+                });
+                plasmaContext.globalCompositeOperation = 'source-over';
+                requestAnimationFrame(drawPlasmaFallback);
+            };
+            resizePlasma();
+            window.addEventListener('resize', resizePlasma, { passive: true });
+            requestAnimationFrame(drawPlasmaFallback);
+        }
 
         function bindCursor(box) {
             let lastX = 0;
