@@ -213,17 +213,9 @@
             border-radius: 18px;
             box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
             transition: transform 300ms ease, box-shadow 300ms ease;
-            animation: portrait-float 7s ease-in-out infinite;
-        }
-
-        @keyframes portrait-float {
-            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-            50% { transform: translate3d(0, -8px, 0) rotate(0.5deg); }
         }
 
         .site-portrait:hover {
-            transform: translateY(-6px) rotate(1deg);
-            animation-play-state: paused;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
         }
 
@@ -534,7 +526,7 @@
 
         .portfolio-section {
             margin-top: 6rem;
-            scroll-margin-top: 6rem;
+            scroll-margin-top: 8rem;
         }
 
         .portfolio-section:first-child {
@@ -1116,10 +1108,6 @@
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
 
-            .site-portrait {
-                animation: none;
-            }
-
             .loader,
             .longfazers span,
             .cloud {
@@ -1417,7 +1405,7 @@
         }
     </style>
 </head>
-<body class="is-loading">
+<body>
     <script>
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
@@ -1430,27 +1418,6 @@
     <div class="cur cur-ring" data-cursor="ring" role="img" aria-label="Halo cursor">
         <span class="cur-word" aria-hidden="true"></span>
         <i class="cursor" style="--i: 0"></i>
-    </div>
-    <div class="nuda-loading-screen" role="status" aria-label="Loading">
-        <div class="nuda-loading-content">
-            <div class="clouds" aria-hidden="true">
-                <div class="cloud cloud1"></div>
-                <div class="cloud cloud2"></div>
-                <div class="cloud cloud3"></div>
-                <div class="cloud cloud4"></div>
-                <div class="cloud cloud5"></div>
-            </div>
-            <div class="loader" aria-hidden="true">
-                <span><span></span><span></span><span></span><span></span></span>
-                <div class="base">
-                    <span></span>
-                    <div class="face"></div>
-                </div>
-            </div>
-            <div class="longfazers" aria-hidden="true">
-                <span></span><span></span><span></span><span></span>
-            </div>
-        </div>
     </div>
     <div
         id="gradient"
@@ -1673,7 +1640,7 @@
                     <p class="section-kicker">Portfolio</p>
                     <h2 class="section-title" id="projets-title">Réalisations professionnelles</h2>
                 </div>
-                <p class="section-note">Les projets ci-dessous sont des emplacements prêts à être remplacés par tes productions scolaires et professionnelles.</p>
+                <p class="section-note">Les projets ci-dessous sont des emplacements prêts à être remplacés par vos productions scolaires et professionnelles.</p>
             </div>
             <div class="projects-grid">
                 <a class="project-card" href="#projets" data-aos="fade-up" data-aos-delay="80">
@@ -1712,7 +1679,7 @@
                     <p class="section-kicker">Échangeons</p>
                     <h2 class="section-title" id="contact-title">Contact</h2>
                 </div>
-                <p class="section-note">Tu peux me contacter pour échanger sur une opportunité de stage.</p>
+                <p class="section-note">Vous pouvez me contacter pour échanger sur une opportunité de stage.</p>
             </div>
             <div class="contact-grid">
                 <article class="contact-card" data-aos="fade-right">
@@ -1871,13 +1838,8 @@
             launchHeroAnimation();
         };
 
-        const loadingScreen = document.querySelector('.nuda-loading-screen');
         window.scrollTo(0, 0);
-        setTimeout(() => {
-            document.body.classList.remove('is-loading');
-            loadingScreen.classList.add('is-hidden');
-            requestAnimationFrame(() => launchHeroAnimation());
-        }, 3500);
+        requestAnimationFrame(() => launchHeroAnimation());
 
         const menuHeader = document.querySelector('.htmlmenu-header');
         const menuBurger = document.querySelector('#htmlmenu-burger');
