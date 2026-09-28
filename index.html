@@ -14,14 +14,14 @@
             --foreground: #E8E8F0;
             --texture-graph-paper: repeating-linear-gradient(0deg, color-mix(in oklab, var(--foreground) 7%, transparent) 0 1px, transparent 1px 24px), repeating-linear-gradient(90deg, color-mix(in oklab, var(--foreground) 7%, transparent) 0 1px, transparent 1px 24px);
             --ink: currentColor;
-            --ink-2: #6B6B8D;
-            --ink-3: #B8B8D0;
-            --accent-rose: #6B6B8D;
-            --accent-mist: #B8B8D0;
-            --deep-ink: #0F0F1A;
-            --surface: rgba(26, 26, 46, 0.82);
-            --line: rgba(184, 184, 208, 0.2);
-            --muted: rgba(232, 232, 240, 0.7);
+            --ink-2: #B8B3C8;
+            --ink-3: #B8D0D8;
+            --accent-rose: #B8B3C8;
+            --accent-mist: #B8D0D8;
+            --deep-ink: #171719;
+            --surface: rgba(20, 21, 23, 0.88);
+            --line: rgba(184, 179, 200, 0.24);
+            --muted: rgba(226, 232, 240, 0.72);
         }
 
         * {
@@ -34,7 +34,12 @@
             min-height: 100%;
             margin: 0;
             overflow-x: hidden;
-            background: #0F0F1A;
+            background-color: var(--deep-ink);
+            background-image: linear-gradient(rgba(12, 13, 16, 0.1), rgba(12, 13, 16, 0.18)), url("smoke-background-design (1).jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
             color: var(--foreground);
             font-family: "Space Grotesk", sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -79,8 +84,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            background-color: rgba(15, 15, 26, 0.28);
-            background-image: radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--accent-rose) 18%, transparent), transparent 34%), radial-gradient(circle at 88% 76%, color-mix(in srgb, var(--accent-mist) 14%, transparent), transparent 32%), linear-gradient(135deg, rgba(15, 15, 26, 0.36), rgba(45, 45, 68, 0.28));
+            background: transparent;
             isolation: isolate;
             pointer-events: none;
             transition: opacity 400ms ease;
@@ -92,7 +96,7 @@
             z-index: 0;
             width: 100%;
             height: 100%;
-            display: block;
+            display: none;
             pointer-events: none;
         }
 
@@ -312,8 +316,8 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #B8B8D0, #6B6B8D 60%, #1A1A2E);
-            box-shadow: 0 0 18px rgba(255, 94, 122, 0.3);
+            background: radial-gradient(circle at 30% 30%, var(--accent-mist), var(--accent-rose) 60%, var(--deep-ink));
+            box-shadow: 0 0 18px color-mix(in srgb, var(--accent-rose) 30%, transparent);
         }
 
         .sr-only {
@@ -1432,7 +1436,7 @@
         </div>
         <img
             class="site-portrait"
-            src="https://cdn.discordapp.com/attachments/1543367563763916971/1549094691088105502/IMG_5690.jpg?ex=6aab6c9b&amp;is=6aaa1b1b&amp;hm=e86976f251c58048c5d77b481b6745b7edfe4c765992c35f497ea492e6be3df4"
+            src="IMG_5690.jpg"
             alt="Portrait d'Alexandre Bodchon"
             loading="eager"
             decoding="async"
@@ -1484,7 +1488,7 @@
                     <p>Je m'appelle Alexandre Bodchon. Je prépare un BTS Services informatiques aux organisations, option Solutions logicielles et applications métiers, au CNED. Curieux, respectueux, attentif et à l'écoute, je développe progressivement mes compétences en développement web et logiciel.</p>
                     <p style="margin-top: 1rem;">Mon objectif est de consolider mes acquis sur des projets concrets, de progresser au contact d'une équipe et de construire une expérience professionnelle dans le développement logiciel.</p>
                     <div class="button-row">
-                        <a class="portfolio-button" href="documents/cv-alexandre-bodchon.pdf" download>Télécharger mon CV</a>
+                        <a class="portfolio-button" href="cv-alexandre-bodchon.pdf" target="_blank" rel="noopener">Voir mon CV</a>
                     </div>
                     <ul class="contact-list">
                         <li><strong>Âge</strong>19 ans</li>
@@ -1698,7 +1702,7 @@
         const plasmaOptions = {
             mode: 'gradient',
             style: 'Smoke',
-            colors: ['#1a1a2e', '#2d2d44', '#4a4a6a', '#6b6b8d', '#0f0f1a'],
+            colors: ['#171719', '#26272B', '#44464B', '#B8B3C8', '#B8D0D8'],
             pointerEffect: true,
             ditherFit: 'none',
             ditherShape: 'simplex',
@@ -1709,8 +1713,8 @@
             raymarchRoundness: 0.2,
             raymarchRotation: 1,
             raymarchPositionY: 0,
-            raymarchObjectColor: '#6B6B8D',
-            raymarchBgColor: '#0F0F1A',
+            raymarchObjectColor: '#B8B3C8',
+            raymarchBgColor: '#171719',
             raymarchMetallic: 0.3,
             raymarchSmoothness: 0.7,
             raymarchAmbient: 0.3,
@@ -1739,21 +1743,24 @@
                 const width = window.innerWidth;
                 const height = window.innerHeight;
                 const shift = time * plasmaOptions.flow * 0.035;
-                plasmaContext.fillStyle = '#0F0F1A';
+                plasmaContext.fillStyle = '#171719';
                 plasmaContext.fillRect(0, 0, width, height);
-                const colors = plasmaOptions.colors;
-                colors.forEach((color, index) => {
-                    const x = width * (0.15 + index * 0.18) + Math.sin(shift + index) * width * 0.16;
-                    const y = height * (0.18 + (index % 3) * 0.32) + Math.cos(shift * 0.8 + index) * height * 0.14;
-                    const radius = Math.max(width, height) * (0.42 + index * 0.025);
-                    const gradient = plasmaContext.createRadialGradient(x, y, 0, x, y, radius);
-                    gradient.addColorStop(0, `${color}cc`);
-                    gradient.addColorStop(1, `${color}00`);
-                    plasmaContext.globalCompositeOperation = 'screen';
-                    plasmaContext.fillStyle = gradient;
-                    plasmaContext.fillRect(0, 0, width, height);
-                });
-                plasmaContext.globalCompositeOperation = 'source-over';
+                const colors = ['#44464B', '#676973', '#9398A5', '#B8B3C8', '#B8D0D8'];
+                plasmaContext.globalAlpha = 0.8;
+                for (let band = 0; band < 5; band += 1) {
+                    for (let point = -10; point < width / 5; point += 1) {
+                        const x = point * 5;
+                        const wave = Math.sin(x * 0.008 + shift * 0.9 + band * 0.7) * height * 0.13;
+                        const secondary = Math.sin(x * 0.018 - shift * 0.5 + band) * height * 0.04;
+                        const y = height * (0.34 + band * 0.075) + wave + secondary;
+                        const radius = 0.65 + (Math.sin(point * 0.7 + band) + 1) * 0.45;
+                        plasmaContext.fillStyle = colors[band];
+                        plasmaContext.beginPath();
+                        plasmaContext.arc(x, y, radius, 0, Math.PI * 2);
+                        plasmaContext.fill();
+                    }
+                }
+                plasmaContext.globalAlpha = 1;
                 requestAnimationFrame(drawPlasmaFallback);
             };
             resizePlasma();
